@@ -49698,7 +49698,14 @@ exports = module.exports = __webpack_require__(65)(false);
 
 
 // module
-exports.push([module.i, "input.ChatAttachment{width:.1px;height:.1px;opacity:0;overflow:hidden;position:absolute;z-index:-1}.ChatAttachment+label{cursor:pointer;display:inline-block;background-color:#fff}.ChatAttachment+label,input.ChatInput{height:25px;border-radius:5px;border:none;padding:10px}input.ChatInput{width:300px}.btn{display:block;padding:5px;border-radius:5px;margin:5px;min-width:100px;background-color:#d3d3d3}ul.ChatLog{list-style:none}.ChatLog{max-width:20em;margin:0 auto}.ChatLog .ChatLog__entry{margin:.5em}.ChatLog__entry{display:flex;flex-direction:row;align-items:flex-end;max-width:100%}.ChatLog__entry.ChatLog__entry_mine{flex-direction:row-reverse}.ChatLog__avatar{flex-shrink:0;flex-grow:0;z-index:1;height:50px;width:50px;border-radius:25px}.ChatLog__entry.ChatLog__entry_mine .ChatLog__avatar{display:none}.ChatLog__entry .ChatLog__message{position:relative;margin:0 12px}.ChatLog__entry .ChatLog__message__image{max-width:100%}.ChatLog__entry .ChatLog__message:before{position:absolute;right:auto;bottom:.6em;left:-12px;height:0;content:\"\";border:6px solid transparent;border-right-color:#ddd;z-index:2}.ChatLog__entry.ChatLog__entry_mine .ChatLog__message:before{right:-12px;bottom:.6em;left:auto;border:6px solid transparent;border-left-color:#08f}.ChatLog__message{background-color:#ddd;padding:.5em;border-radius:4px;font-weight:lighter;max-width:70%}.ChatLog__entry.ChatLog__entry_mine .ChatLog__message{border-top:1px solid #07f;border-bottom:1px solid #07f;background-color:#08f;color:#fff}", ""]);
+
+exports.push([module.i,`input.ChatAttachment{width:.1px;height:.1px;opacity:0;overflow:hidden;position:absolute;z-index:-1}label{border: none;display: flex;align-items: center;padding: 12px;width: 100px;background-color: #9fcdff;margin-left: 0.4rem;border: 1px solid #d8d8d8;cursor: pointer;
+}.ChatAttachment+label,input.ChatInput{height:25px;border-radius:5px;border:none;padding:10px}input.ChatInput{padding: 1.5rem 0.4rem;outline: none;border-radius: 7px;border: 1px solid #d8d8d8;width: 60%;font-family: "Open Sans", sans-serif;font-size: 1rem;
+}.btn{display:block;padding:5px;border-radius:5px;margin:5px;min-width:100px;background-color:#d3d3d3;cursor:pointer}.btn:hover{background-color:darkgrey}ul.ChatLog{list-style:none}.ChatLog{width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;}.ChatLog .ChatLog__entry{margin:.5em}.ChatLog__entry{background-color: #98FB98;padding: 0.3rem 1rem;margin: 0.5rem 0;border-radius: 7px;max-width: 40%;}.ChatLog__entry.ChatLog__entry_mine{text-align: right;background-color:#08f;margin-left: auto;}.ChatLog__avatar{flex-shrink:0;flex-grow:0;z-index:1;height:0px;width:0px;border-radius:25px}.ChatLog__entry.ChatLog__entry_mine .ChatLog__avatar{display:none}.ChatLog__entry .ChatLog__message{position:relative;margin:0 12px}.ChatLog__entry .ChatLog__message__image{max-width:100%}.ChatLog__entry .ChatLog__message:before{position:absolute;right:auto;bottom:.6em;left:-12px;height:0;content:\"\";border:6px solid transparent;border-right-color:#ddd;z-index:2}.ChatLog__entry.ChatLog__entry_mine .ChatLog__message:before{right:-12px;bottom:.6em;left:auto;border:6px solid transparent;border-left-color:#08f}.ChatLog__message{;padding:.5em;border-radius:4px;font-weight:lighter;max-width:70%}.ChatLog__entry.ChatLog__entry_mine .ChatLog__message{border-top:1px solid #07f;border-bottom:1px solid #07f;background-color:#08f;color:#fff}`, ""]);
 
 // exports
 
@@ -49922,7 +49929,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('li', {
       staticClass: "ChatLog__entry",
       class: {
-        'ChatLog__entry_mine': message.isMine
+        'ChatLog__entry_mine': message.isMine,
       }
     }, [_c('img', {
       staticClass: "ChatLog__avatar",
@@ -49962,8 +49969,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })]) : _vm._e()]), _vm._v(" "), (message.original.type === 'actions') ? _c('div', _vm._l((message.original.actions), function(action) {
       return _c('div', {
         staticClass: "btn",
+
         on: {
           "click": function($event) {
+              if($event.target.textContent.length == 38) {
+                  $event.target.style.display = "none"
+                  return;
+              };
             _vm.performAction(action.value, message.original)
           }
         }
@@ -50008,7 +50020,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "ChatInput",
     attrs: {
       "type": "text",
-      "placeholder": ""
+      "placeholder": "",
+       "defaultValue":"/start"
     },
     domProps: {
       "value": (_vm.newMessage)
