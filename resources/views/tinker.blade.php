@@ -98,7 +98,7 @@
     attachment[0].classList.add('fas')
     attachment[0].classList.add('fa-paper-plane')
 
-    ChatInput[0].value = "/"
+    ChatInput[0].value = "/start"
     wrappInp[0].appendChild(ChatInput[0])
     wrappInp[0].appendChild(attachment[0])
 </script>
