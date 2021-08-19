@@ -72,7 +72,6 @@
 <div class="container">
     <div class="contact-info">
         <h3>boshlash uchun /start ni yuboring</h3>
-        <button class="btn btn-primary">yuborish</button>
     </div>
     <div class="content" id="app">
         <botman-tinker api-endpoint="/botman"></botman-tinker>
