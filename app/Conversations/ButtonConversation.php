@@ -142,122 +142,171 @@ class ButtonConversation extends Conversation
         ]);
 
         $this->ask($question, function($answer){
-            if($answer->getValue() == 'uz') {
-                $this->say(msgUz);
-                $questionn = Question::create('Бўлимни танланг!')
-                    ->addButtons([
-                        Button::create('Вилоятлар')->value('vi'),
-                        Button::create('Тузилмалар')->value('tu'),
-                    ]);
-                $this->ask($questionn,function ($answerr) {
-                    if($answerr->getValue() == 'vi') {
-                        $ar = [];
+            if ($answer->isInteractiveMessageReply()) {
+                if($answer->getValue() == 'uz') {
+                    $this->say(msgUz);
+                    $questionn = Question::create('Бўлимни танланг!')
+                        ->addButtons([
+                            Button::create('Вилоятлар')->value('vi'),
+                            Button::create('Тузилмалар')->value('tu'),
+                        ]);
+                    $this->ask($questionn,function ($answerr) {
+                        if ($answerr->isInteractiveMessageReply()) {
+                            if($answerr->getValue() == 'vi') {
+                                $ar = [];
 
-                        foreach (keyboardd as $key) {
-                            array_push($ar,Button::create($key)->value($key));
-                        }
-                        $questionn = Question::create('Керакли вилоят танланг!')
-                            ->addButtons($ar);
-                        $this->ask($questionn,function ($answerr) {
-                            $ar = [];
+                                foreach (keyboardd as $key) {
+                                    array_push($ar,Button::create($key)->value($key));
+                                }
+                                $questionn = Question::create('Керакли вилоят танланг!')
+                                    ->addButtons($ar);
+                                $this->ask($questionn,function ($answerr) {
+                                    if ($answerr->isInteractiveMessageReply()) {
+                                        $ar = [];
 
-                            foreach (keyboarddd as $key) {
-                                array_push($ar,Button::create($key)->value($key));
-                            }
-                            $questionn = Question::create('Керакли йўналишни танланг!')
-                                ->addButtons($ar);
+                                        foreach (keyboarddd as $key) {
+                                            array_push($ar,Button::create($key)->value($key));
+                                        }
+                                        $questionn = Question::create('Керакли йўналишни танланг!')
+                                            ->addButtons($ar);
 
-                            $this->ask($questionn,function ($answer){
+                                        $this->ask($questionn,function ($answer){
+                                            if ($answer->isInteractiveMessageReply()) {
+                                                $questionn = Question::create('Сизда ушбу йўналишга оид қандайдир маълумот (видео/аудио/фото/в.х.) бўлса, илова қилган ҳолда бизга юборишингиз мумкин!')
 
-                                $questionn = Question::create('Сизда ушбу йўналишга оид қандайдир маълумот (видео/аудио/фото/в.х.) бўлса, илова қилган ҳолда бизга юборишингиз мумкин!')
+                                                    ->addButtons([Button::create('')->value('fd')]);
 
-                                    ->addButtons([Button::create('')->value('fd')]);
+                                                $this->ask($questionn,function ($answer){
+                                                    $this->say('✅Юборган хабарингиз белгиланган тартибда кўриб чиқилади. Маълумот учун рахмат!');
+                                                    $this->say('✅boshlashj uchun /start ni yuboring');
+                                                });
+                                            }else {
+                                                $this->repeat();
+                                            }
 
-                                $this->ask($questionn,function ($answer){
-                                    $this->say('✅Юборган хабарингиз белгиланган тартибда кўриб чиқилади. Маълумот учун рахмат!');
-                                    $this->say('✅boshlashj uchun /start ni yuboring');
-                            });
-                            });
-                        });
 
-                    }
-                    elseif ($answerr->getValue() == 'tu') {
-                        $ar = [];
+                                        });
 
-                        foreach (keyboard as $key) {
-                            array_push($ar,Button::create($key)->value($key));
-                        }
-                        $questionn = Question::create('Керакли тузилмани танланг!')
-                            ->addButtons($ar);
-                        $this->ask($questionn,function ($answer) {
-                            $questionn = Question::create('Сизда ушбу йўналишга оид қандайдир маълумот (видео/аудио/фото/в.х.) бўлса, илова қилган ҳолда бизга юборишингиз мумкин!')->addButton(Button::create('')->value('fd'));
-                            $this->ask($questionn,function ($answer){
-                                $this->say('✅Юборган хабарингиз белгиланган тартибда кўриб чиқилади. Маълумот учун рахмат!');
-                                $this->say('✅boshlashj uchun /start ni yuboring');
-                            });
-                        });
-                    }
-                });
-            }
-            elseif ($answer->getValue() == 'ru') {
+                                    }else {
+                                        $this->repeat();
+                                    }
 
-                $this->say(msgRu);
-                $questionn = Question::create('Выберите раздел!')
-                    ->addButtons([
-                        Button::create('Провинции')->value('vi'),
-                        Button::create('Структуры')->value('tu'),
-                    ]);
-                $this->ask($questionn,function ($answerr) {
-                    if($answerr->getValue() == 'vi') {
-                        $ar = [];
 
-                        foreach (keyboardRu as $key) {
-                            array_push($ar,Button::create($key)->value($key));
-                        }
-                        $questionn = Question::create('Выберите желаемый регион!')
-                            ->addButtons($ar);
-                        $this->ask($questionn,function ($answerr) {
-                            $ar = [];
-
-                            foreach (keyboardddRu as $key) {
-                                array_push($ar,Button::create($key)->value($key));
-                            }
-                            $questionn = Question::create('Выберите желаемое направление!')
-                                ->addButtons($ar);
-
-                            $this->ask($questionn,function ($answer){
-
-                                $questionn = Question::create('Если у вас есть какая-либо информация по этому направлению (видео / аудио / фото / и т. Д.), Вы можете прислать ее нам с приложением.!')
-
-                                    ->addButtons([Button::create('')->value('fd')]);
-
-                                $this->ask($questionn,function ($answer){
-                                    $this->say('✅Ваше сообщение будет рассмотрено в установленном порядке. Спасибо за информацию!');
-                                    $this->say('✅Отправить /start, чтобы начать');
                                 });
-                            });
-                        });
 
-                    }
-                    elseif ($answerr->getValue() == 'tu') {
-                        $ar = [];
+                            }
+                            elseif ($answerr->getValue() == 'tu') {
+                                $ar = [];
 
-                        foreach (keyboarddRu as $key) {
-                            array_push($ar,Button::create($key)->value($key));
+                                foreach (keyboard as $key) {
+                                    array_push($ar,Button::create($key)->value($key));
+                                }
+                                $questionn = Question::create('Керакли тузилмани танланг!')
+                                    ->addButtons($ar);
+                                $this->ask($questionn,function ($answer) {
+                                    if ($answer->isInteractiveMessageReply()) {
+                                        $questionn = Question::create('Сизда ушбу йўналишга оид қандайдир маълумот (видео/аудио/фото/в.х.) бўлса, илова қилган ҳолда бизга юборишингиз мумкин!')->addButton(Button::create('')->value('fd'));
+                                        $this->ask($questionn,function ($answer){
+                                            $this->say('✅Юборган хабарингиз белгиланган тартибда кўриб чиқилади. Маълумот учун рахмат!');
+                                            $this->say('✅boshlashj uchun /start ni yuboring');
+                                        });
+                                    }else {
+                                        $this->repeat();
+                                    }
+
+
+                                });
+                            }
+                        }else {
+
                         }
-                        $questionn = Question::create('Выберите желаемую структуру!')
-                            ->addButtons($ar);
-                        $this->ask($questionn,function ($answer) {
-                            $questionn = Question::create('Если у вас есть какая-либо информация по этому направлению (видео / аудио / фото / и т. Д.), Вы можете прислать ее нам с приложением!')->addButton(Button::create('')->value('fd'));
-                            $this->ask($questionn,function ($answer){
-                                $this->say('✅Ваше сообщение будет рассмотрено в установленном порядке. Спасибо за информацию!. ');
-                                $this->say('✅Отправить /start, чтобы начать');
-                            });
-                        });
-                    }
-                });
 
+                    });
+                }
+                elseif ($answer->getValue() == 'ru') {
+
+                    $this->say(msgRu);
+                    $questionn = Question::create('Выберите раздел!')
+                        ->addButtons([
+                            Button::create('Провинции')->value('vi'),
+                            Button::create('Структуры')->value('tu'),
+                        ]);
+                    $this->ask($questionn,function ($answerr) {
+                        if($answerr->isInteractiveMessageReply()) {
+                            if($answerr->getValue() == 'vi') {
+                                $ar = [];
+
+                                foreach (keyboardRu as $key) {
+                                    array_push($ar,Button::create($key)->value($key));
+                                }
+                                $questionn = Question::create('Выберите желаемый регион!')
+                                    ->addButtons($ar);
+                                $this->ask($questionn,function ($answerr) {
+                                    if ($answerr->isInteractiveMessageReply()) {
+                                        $ar = [];
+
+                                        foreach (keyboardddRu as $key) {
+                                            array_push($ar,Button::create($key)->value($key));
+                                        }
+                                        $questionn = Question::create('Выберите желаемое направление!')
+                                            ->addButtons($ar);
+
+                                        $this->ask($questionn,function ($answer){
+                                            if ($answer->isInteractiveMessageReply()) {
+                                                $questionn = Question::create('Если у вас есть какая-либо информация по этому направлению (видео / аудио / фото / и т. Д.), Вы можете прислать ее нам с приложением.!')
+
+                                                    ->addButtons([Button::create('')->value('fd')]);
+
+                                                $this->ask($questionn,function ($answer){
+                                                    $this->say('✅Ваше сообщение будет рассмотрено в установленном порядке. Спасибо за информацию!');
+                                                    $this->say('✅Отправить /start, чтобы начать');
+                                                });
+                                            } else {
+                                                $this->repeat();
+                                            }
+
+                                        });
+                                    } else {
+                                        $this->repeat();
+                                    }
+
+                                });
+
+                            }
+                            elseif ($answerr->getValue() == 'tu') {
+
+                                $ar = [];
+
+                                foreach (keyboarddRu as $key) {
+                                    array_push($ar,Button::create($key)->value($key));
+                                }
+                                $questionn = Question::create('Выберите желаемую структуру!')
+                                    ->addButtons($ar);
+                                $this->ask($questionn,function ($answer) {
+                                    if ($answer->isInteractiveMessageReply()) {
+                                        $questionn = Question::create('Если у вас есть какая-либо информация по этому направлению (видео / аудио / фото / и т. Д.), Вы можете прислать ее нам с приложением!')->addButton(Button::create('')->value('fd'));
+                                        $this->ask($questionn,function ($answer){
+                                            $this->say('✅Ваше сообщение будет рассмотрено в установленном порядке. Спасибо за информацию!. ');
+                                            $this->say('✅Отправить /start, чтобы начать');
+                                        });
+                                    }else {
+                                        $this->repeat();
+                                    }
+
+                                });
+                            }
+                        }else {
+                            $this->repeat();
+                        }
+
+                    });
+
+                }
+            }else {
+                $this->repeat();
             }
+
+
         });
     }
 }
